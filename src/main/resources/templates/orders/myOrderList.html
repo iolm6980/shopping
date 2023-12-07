@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <div th:replace="~{layout/layout :: head}"></div>
+</head>
+<body>
+<div class="d-flex" id="wrapper">
+    <!-- Sidebar-->
+    <div th:replace="~{layout/layout :: side}"></div>
+    <!-- Page content wrapper-->
+    <div id="page-content-wrapper" class="pb-8">
+        <!-- Top navigation-->
+        <div th:replace="~{layout/layout :: top}"></div>
+        <!-- Page content-->
+        <div class="justify-content-center">
+            <div class="w-60 m-3 m-auto">
+                <table class="table">
+                    <tbody>
+                    <tr>
+                        <th class="text-center align-middle"><input type="checkbox" class="check-all"></th>
+                        <th class="text-center align-middle">이미지</th>
+                        <th class="text-center align-middle">상품명</th>
+                        <th class="text-center align-middle">가격</th>
+                        <th class="text-center align-middle">수량</th>
+                        <th class="text-center align-middle">사이즈</th>
+                    </tr>
+                    <form method="post" class="orders">
+                        <tr th:each="orders :${orderList}">
+                            <th class="text-center align-middle"><input type="checkbox" class="product-check" name="productCheck" th:value="${orders.ono}"></th>
+                            <th class="w-40 text-center align-middle"><img class="card-img-top w-40" src="/img/testImg.jpg" alt="..." /></th>
+                            <th class="text-center align-middle">[[${orders.productDTO.name}]]</th>
+                            <th class="text-center align-middle product-price">[[${orders.productDTO.price}]]</th>
+                            <th class="text-center align-middle">[[${orders.amount}]]</th>
+                            <th class="text-center align-middle">[[${orders.productSize}]]</th>
+                        </tr>
+                    </form>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="d-sm-flex">
+            <div class="m-auto d-sm-flex">
+                <h3 >총 가격:  </h3>
+                <h3 class="total-price">0</h3>
+                <h3>원</h3>
+            </div>
+            <div class="text-sm-end m-auto">
+                <button class="select-delete">선택삭제</button>
+                <button class="buy-product">주문하기</button>
+            </div>
+        </div>
+
+<!--        <div>-->
+<!--            <div class="bottom-right fixed bo">-->
+<!--                <ul class="pagination h-100 justify-content-center align-items-center" >-->
+<!--                    <li class="page-item " th:if="${orderPageResult.prev}">-->
+<!--                        <a class="page-link" th:href="@{/orders/myOrderList(page=${page-1}}" tabindex="-1">Previous</a>-->
+<!--                    </li>-->
+<!--                    <li th:class=" 'page-item ' + ${orderPageResult.page == page?'active':''} " th:each="page: ${orderPageResult.pageList}">-->
+<!--                        <a class="page-link" th:href="@{/orders/myOrderList(page=${page})}">[[${page}]]</a>-->
+<!--                    </li>-->
+<!--                    <li class="page-item" th:if="${orderPageResult.next}">-->
+<!--                        <a class="page-link" th:href="@{/orders/myOrderList(page=${page+1})}">Next</a>-->
+<!--                    </li>-->
+<!--                </ul>-->
+<!--            </div>-->
+<!--        </div>-->
+
+    </div>
+</div>
+<script th:inline="javascript">
+    $(".check-all").change(function() {
+        var totalPrice = parseInt(0);
+        if($(".check-all").prop("checked")) {
+            $(".product-check").prop("checked", true);
+            $(".product-price").each(function(){
+                totalPrice += parseInt($(this).text());
+            });
+            $(".total-price").text(totalPrice);
+        }
+        else{
+            $(".product-check").prop("checked", false);
+            $(".total-price").text(0);
+        }
+
+    });
+
+    $(".product-check").change(function(){
+        var checkPrice = parseInt($(this).parent().siblings(".product-price").text());
+        var totalPrice = parseInt($(".total-price").text());
+
+        if($(this).is(":checked")==true) totalPrice += checkPrice;
+        else totalPrice -= checkPrice;
+        $(".total-price").text(totalPrice);
+    });
+
+    var actionForm = $(".orders");
+        $(".select-delete").click(function() {
+        alert("삭제 완료");
+        actionForm
+            .attr("action", "/orders/delete")
+            .attr("method","post")
+            .submit();
+    });
+
+    var actionForm = $(".orders");
+        $(".buy-product").click(function() {
+        actionForm
+            .attr("action", "/orders/buy")
+            .attr("method","get")
+            .submit();
+    });
+</script>
+<!-- Bootstrap core JS-->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+<!-- Core theme JS-->
+</body>
+</html>

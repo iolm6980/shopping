@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+  <title>Login 01</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/login_styles.css">
+  <div th:replace="~{layout/layout :: head}"></div>
+  <script>
+  function register(){
+    const member = {
+      userId: document.getElementById('userId').value,
+      password: document.getElementById('password').value,
+      nickName: document.getElementById('nickName').value,
+      email: document.getElementById('email').value
+    }
+
+    console.log(member);
+    $.ajax({
+            url: '/register',
+            method: 'post',
+            data:  JSON.stringify(member),
+            contentType: 'application/json; charset=utf-8',
+            dataType: 'text',
+            success: function(data){
+               alert("회원가입성공");
+               location.replace("/shopping/login");
+            },
+            error: function(data){
+                alert("회원가입실패");
+            }
+            });
+  }
+
+</script>
+</head>
+<body>
+<section class="ftco-section">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-md-7 col-lg-5">
+        <div class="login-wrap p-4 p-md-5">
+          <div class="icon d-flex align-items-center justify-content-center">
+            <span class="fa fa-user-o"></span>
+          </div>
+          <h3 class="text-center mb-4">Register</h3>
+          <form th:action="@{/member/register}" class="login-form" method="post">
+            <div class="form-group">
+              <input for="userId" name="userId" id="userId" type="text" class="form-control rounded-left" placeholder="id" required>
+            </div>
+            <div class="form-group d-flex">
+              <input for="password" name="password" id="password" type="password" class="form-control rounded-left" placeholder="password" required>
+            </div>
+            <div class="form-group d-flex">
+              <input for="nickName" name="nickName" id="nickName" type="text" class="form-control rounded-left" placeholder="name" required>
+            </div>
+            <div class="form-group d-flex">
+              <input for="email" name="email" id="email" type="email" class="form-control rounded-left" placeholder="email" required>
+            </div>
+          </form>
+          <div class="form-group">
+            <button class="form-control btn btn-primary rounded submit px-3 register" id="test" onclick="register()">Register</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+</body>
+</html>

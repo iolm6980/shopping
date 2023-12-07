@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+    <head>
+        <div th:replace="~{layout/layout::head}"></div>
+        <link href="/css/detail-styles.css" rel="stylesheet" />
+    </head>
+    <body>
+        <div class="d-flex" id="wrapper">
+            <!-- Sidebar-->
+            <div th:replace="~{layout/layout :: side}"></div>
+            <!-- Page content wrapper-->
+            <div id="page-content-wrapper">
+                <!-- Top navigation-->
+                <div th:replace="~{layout/layout :: top}"></div>
+                <!-- Page content-->
+                <div class="container-fluid">
+                    <!-- Product section-->
+                    <section class="py-5">
+                        <div class="container px-3 px-lg-5 my-5">
+                            <div class="row gx-4 gx-lg-5" id="parent">
+                                <div class="col-md-4">
+                                    <img class="card-img-top mb-5 mb-md-0 mainImg" th:src="${product.productImageList[0].path}" alt="..." />
+<!--                                    <div class="d-md-flex">-->
+<!--                                        <img class="changImg" id="1" th:src="${product.productImageList[1].path}" alt="..." />-->
+<!--                                        <img class="changImg" id="2" th:src="${product.productImageList[2].path}" alt="..." />-->
+<!--                                        <img class="changImg" id="3" th:src="${product.productImageList[3].path}" alt="..." />-->
+<!--                                    </div>-->
+                                </div>
+                                <div class="col-md-5" id="product-information">
+                                    <h1 class="display-6 fw-bolder">Shop item template</h1>
+                                    <div class="fs-5 mb-5">[[${product.name}]]</div>
+                                    <div class="small mb-1">판매자</div>
+                                    <p class="lead">[[${product.price}]]</p>
+                                    <p class="lead">[[${product.likeCount}]]</p>
+<!--                                    <div class="d-flex">-->
+<!--                                        <form action="/member/addCart" method="post" id="add-cart-form">-->
+<!--                                            <input type="hidden" name="pno" th:value="${product.pno}">-->
+<!--                                            <input type="hidden" name="name" th:value="${product.name}">-->
+<!--                                            <input type="hidden" name="price" th:value="${product.price}">-->
+<!--                                            <input type="hidden" name="likeCount" th:value="${product.likeCount}">-->
+<!--                                            <input type="hidden" name="type" th:value="${product.type}">-->
+<!--                                        </form>-->
+<!--                                    </div>-->
+                                    <form id="buy-form">
+                                        <div>
+                                            <select class="form-select select-size" name="productSize" aria-label="Default select example">
+                                                <option selected>옵션 선택</option>
+                                                <option th:value="S">S</option>
+                                                <option th:value="M">M</option>
+                                                <option th:value="L">L</option>
+                                            </select>
+                                        </div>
+                                        <div class="d-md-flex">
+                                            <p>수량</p>
+                                            <button type="button" id="-" class="btn btn-outline-dark amount-btn">-</button>
+                                            <input class="form-control text-center" id="amount" name="amount" type="num" th:value="1" style="max-width: 3rem" readonly/>
+                                            <button type="button" id="+" class="btn btn-outline-dark amount-btn">+</button>
+                                            <P>가격: </P> <p class="total-price">[[${product.price}]]</p>
+                                        </div>
+                                        <div class="d-md-flex">
+                                            <button class="btn btn-outline-dark flex-shrink-0 addCartBtn" type="button">
+                                                <i class="bi-cart-fill me-1"></i>
+                                                장바구니
+                                            </button>
+                                            <button class="btn btn-outline-dark flex-shrink-0 buyBtn" type="submit">
+                                                <i class="bi-cart-fill me-1"></i>
+                                                구매하기
+                                            </button>
+                                        </div>
+                                        <input type="hidden" name="pno" th:value="${product.pno}">
+                                        <input type="hidden" name="name" th:value="${product.name}">
+                                        <input type="hidden" name="price" th:value="${product.price}">
+                                        <input type="hidden" name="likeCount" th:value="${product.likeCount}">
+                                        <input type="hidden" name="type" th:value="${product.type}">
+                                        <input type="hidden" name="sno" th:value="${product.sellerDTO.sno}">
+                                        <input type="hidden" name="sName" th:value="${product.sellerDTO.sName}">
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+<!--                    <section class="py-5 bg-light"><div class="container px-4 px-lg-5 mt-5"></div></section>-->
+                </div>
+            </div>
+        </div>
+        <!-- Navigation-->
+        <!-- Footer-->
+        <footer class="py-5 bg-dark">
+            <div class="container"><p class="m-0 text-center text-white">Copyright &copy; Your Website 2023</p></div>
+        </footer>
+        <!-- Bootstrap core JS-->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+        <!-- Core theme JS-->
+        <script th:inline="javascript">
+            $(document).ready(function () {
+                $(".changImg").mouseover(function(){
+                    var tag = $(this).attr("id");
+                    var img;
+                    if(tag == 1) img = [[${product.productImageList[1].path}]]
+                    else if(tag == 2) img = [[${product.productImageList[2].path}]]
+                    else img = [[${product.productImageList[3].path}]]
+                    $(".mainImg").attr("src", img);
+                });
+            });
+
+
+                $(".select-size").change(function() {
+                    var str = $(".select-size option:selected").val();
+                    $(".select-area").append("<h1>"+str+"</h1>");
+                });
+
+
+                var actionForm = $("#buy-form");
+                 $(".addCartBtn").click(function() {
+                    alert("장바구니 담기 완료");
+                    actionForm
+                        .attr("action", "/orders/addOrder")
+                        .attr("method","post")
+                        .submit();
+                });
+
+                $(".amount-btn").click(function() {
+                    var isClick = $(this).attr('id');
+                    var amount = parseInt($("#amount").val());
+                    var price = parseInt([[${product.price}]]);
+                    if(isClick == "+") {
+                        if(amount+1 > 999) alert("999개를 초과할수 없습니다");
+                        else {
+                            $("#amount").val(amount+1);
+                            $(".total-price").text(price * (amount+1));
+                        }
+                    }else{
+                        if(amount-1 <= 0) alert("최소 하나 선택해야 합니다");
+                        else {
+                            $("#amount").val(amount-1);
+                            $(".total-price").text(price * (amount-1));
+                        }
+                     }
+
+                });
+
+
+
+        </script>
+    </body>
+</html>

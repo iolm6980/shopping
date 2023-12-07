@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <div th:fragment="head">
+        <meta charset="utf-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <title>Simple Sidebar - Start Bootstrap Template</title>
+        <link href="/css/sidebar-styles.css" rel="stylesheet" />
+        <link href="/css/styles.css" rel="stylesheet" />
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    </div>
+
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom" th:fragment="top">
+    <div class="container-fluid">
+<!--        <button class="btn btn-primary" id="sidebarToggle">Toggle Menu</button>-->
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav ms-auto mt-2 mt-lg-0">
+                <li sec:authorize="!hasAnyRole('USER')"class="nav-item active"><a class="nav-link" href="/shopping/login">로그인</a></li>
+                <li class="nav-item dropdown">
+                     <a sec:authorize="hasAnyRole('USER')" class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">[[${auth.username}]]</a>
+                    <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="/member/modify">사용자 정보 수정</a>
+                        <a class="dropdown-item" href="/orders/myOrderList">장바구니</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="/logout">로그아웃</a>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="border-end bg-white" id="sidebar-wrapper" th:fragment="side">
+    <div class="sidebar-heading border-bottom bg-light">Start Bootstrap</div>
+    <div class="list-group list-group-flush">
+        <a class="list-group-item list-group-item-action list-group-item-light p-3" th:href="@{/shopping/list(productType=TOP)}">TOP</a>
+        <a class="list-group-item list-group-item-action list-group-item-light p-3" th:href="@{/shopping/list(productType=PANTS)}">PANTS</a>
+        <a class="list-group-item list-group-item-action list-group-item-light p-3" th:href="@{/shopping/list(productType=OUTER)}">OUTER</a>
+        <a class="list-group-item list-group-item-action list-group-item-light p-3" th:href="@{/shopping/list(productType=ETC)}">ETC</a>
+    </div>
+</div>
+
+
+</body>
+</html>
+
