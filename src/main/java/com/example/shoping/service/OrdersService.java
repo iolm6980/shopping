@@ -18,6 +18,8 @@ public interface OrdersService {
 
     public void deleteOrder(List<Long> ono);
 
+    public void updateBuy(List<Long> ono);
+
     default Orders dtoToEntity(OrdersDTO ordersDTO, ProductDTO productDTO, AuthMemberDTO authMemberDTO, SellerDTO sellerDTO){
         Seller seller = Seller.builder().sno(sellerDTO.getSno()).name(sellerDTO.getSName()).build();
         Member member = Member.builder().userId(authMemberDTO.getUsername()).build();
@@ -33,21 +35,22 @@ public interface OrdersService {
         return orders;
     }
 
-    default OrdersDTO entityToDTO(Orders orders, Product product){
+    default OrdersDTO entityToDTO(Orders orders, Product product, Member member){
         ProductDTO productDTO = entityToDTO(product);
-//        MemberDTO memberDTO = MemberDTO.builder()
-//                .userId(orders.getMember().getUserId())
-//                .email(orders.getMember().getEmail())
-//                .nickName(orders.getMember().getNickName())
-//                .address(orders.getMember().getAddress())
-//                .number(orders.getMember().getNumber())
-//                .build();
+        MemberDTO memberDTO = MemberDTO.builder()
+                .userId(member.getUserId())
+                .email(member.getEmail())
+                .nickName(member.getNickName())
+                .address(member.getAddress())
+                .number(member.getNumber())
+                .build();
 
         OrdersDTO ordersDTO = OrdersDTO.builder()
                 .ono(orders.getOno())
                 .amount(orders.getAmount())
                 .productSize(orders.getProductSize())
                 .productDTO(productDTO)
+                .memberDTO(memberDTO)
                 .build();
         return ordersDTO;
     }

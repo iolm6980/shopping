@@ -44,10 +44,10 @@ public class OrdersController {
         return "redirect:/orders/myOrderList";
     }
 
-    @GetMapping("/buy")
-    public void buy(@RequestParam List<Long> productCheck , Model model, @AuthenticationPrincipal AuthMemberDTO authMemberDTO){
-        System.out.println(productCheck);
-        model.addAttribute("productList", productCheck);
-        model.addAttribute("auth", authMemberDTO);
-    }
+//    @GetMapping("/buy")
+//    public void buy(@RequestParam List<Long> productCheck , Model model, @AuthenticationPrincipal AuthMemberDTO authMemberDTO){
+//        System.out.println(productCheck);
+//        model.addAttribute("productList", ordersService.getOrderList());
+//        model.addAttribute("auth", authMemberDTO);
+//    }
 }

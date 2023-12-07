@@ -27,4 +27,8 @@ public class Orders extends BaseEntity{
 
     @OneToOne(fetch = FetchType.LAZY)
     private Seller seller;
+
+    public void changeBuy(boolean buy){
+        this.isBuy = buy;
+    }
 }

@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.stream.IntStream;
 import java.util.List;
@@ -39,17 +40,9 @@ public class OrdersRepositoryTests {
 
     @Test
     public void getListTest(){
-        List<Object[]> list = ordersRepository.orderList("testId1");
-        System.out.println(list.get(0)[0]);
-    }
-
-    @Test
-    public void memberInfoTest(){
-       List<Member> list = ordersRepository.memberInfo("testId1");
-       System.out.println(list);
-    }
-
-    @Test
-    public void test(){
+        List<Object[]> list = ordersRepository.memberOrderList("testId1");
+        for(Object[] objects : list){
+            System.out.println(Arrays.toString(objects));
+        }
     }
 }

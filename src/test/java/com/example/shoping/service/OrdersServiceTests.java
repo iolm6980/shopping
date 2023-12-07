@@ -26,6 +26,11 @@ public class OrdersServiceTests {
     public void orderListTest(){
         List<OrdersDTO> result = ordersService.getOrderList("testId1");
         System.out.println(result);
+    }
 
+    @Test
+    public void updateBuyTest(){
+        List<Long> list = Arrays.asList(103L, 104L, 105L);
+        ordersService.updateBuy(list);
     }
 }
