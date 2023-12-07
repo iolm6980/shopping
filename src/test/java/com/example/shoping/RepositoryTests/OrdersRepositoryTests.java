@@ -37,6 +37,17 @@ public class OrdersRepositoryTests {
         });
     }
 
+    @Test
+    public void getListTest(){
+        List<Object[]> list = ordersRepository.orderList("testId1");
+        System.out.println(list.get(0)[0]);
+    }
+
+    @Test
+    public void memberInfoTest(){
+       List<Member> list = ordersRepository.memberInfo("testId1");
+       System.out.println(list);
+    }
 
     @Test
     public void test(){

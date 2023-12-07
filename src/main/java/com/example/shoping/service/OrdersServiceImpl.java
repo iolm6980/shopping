@@ -33,10 +33,9 @@ public class OrdersServiceImpl implements OrdersService{
 
     @Override
     public List<OrdersDTO> getOrderList(String userId) {
-//        List<Object[]> ordersList = ordersRepository.orderList(userId);
-//        List<OrdersDTO> result = ordersList.stream().map(arr -> entityToDTO((Orders)arr[0], (Product)arr[1])).collect(Collectors.toList());
-//        return result;
-        return null;
+        List<Object[]> ordersList = ordersRepository.orderList(userId);
+        List<OrdersDTO> result = ordersList.stream().map(arr -> entityToDTO((Orders)arr[0], (Product)arr[1])).collect(Collectors.toList());
+        return result;
     }
 
 //    @Override
