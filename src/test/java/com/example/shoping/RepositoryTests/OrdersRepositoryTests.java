@@ -1,5 +1,6 @@
 package com.example.shoping.RepositoryTests;
 
+import com.example.shoping.dto.OrdersDTO;
 import com.example.shoping.entity.Member;
 import com.example.shoping.entity.Orders;
 import com.example.shoping.entity.Product;
@@ -10,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.stream.IntStream;
 import java.util.List;
@@ -40,7 +42,19 @@ public class OrdersRepositoryTests {
 
     @Test
     public void getListTest(){
-        List<Object[]> list = ordersRepository.memberOrderList("testId1");
+        List<Object[]> list = ordersRepository.getMemberOrderList("testId1");
+        for(Object[] objects : list){
+            System.out.println(Arrays.toString(objects));
+        }
+    }
+
+    @Test
+    public void getOrders(){
+        List<Long> o = Arrays.asList(132L, 133L, 134L);
+        List<Object[]> list = new ArrayList<>();
+        o.forEach(i ->{
+            list.addAll(ordersRepository.getOrders(i));
+        });
         for(Object[] objects : list){
             System.out.println(Arrays.toString(objects));
         }

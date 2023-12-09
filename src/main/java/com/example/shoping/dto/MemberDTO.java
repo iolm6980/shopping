@@ -18,7 +18,9 @@ import java.util.ArrayList;
 public class MemberDTO {
     private String userId;
     private String password;
+    private Long addressNum;
     private String address;
+    private String detailAddress;
     private String email;
     private String nickName;
     private String number;

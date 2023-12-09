@@ -7,10 +7,15 @@ import com.example.shoping.dto.MemberDTO;
 import com.example.shoping.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 @Controller
 @RequiredArgsConstructor
@@ -21,6 +26,13 @@ public class MemberController {
 
     @GetMapping("/register")
     public void register(){
+    }
+    @PostMapping("/register")
+    public String register(MemberDTO memberDTO) {
+        System.out.println("memberRegister.............................."+ memberDTO);
+        return "redirect:/shopping/list";
+//        if(memberService.memberRegister(memberDTO)) return new ResponseEntity<>("회원가입성공", HttpStatus.OK);
+//        return new ResponseEntity<>("회원가입실패", HttpStatus.BAD_REQUEST);
     }
 
     @GetMapping("/modify")
@@ -39,6 +51,7 @@ public class MemberController {
         memberService.modify(memberDTO);
         return "redirect:/member/modify";
     }
+
 
 //    @PostMapping("/addCart")
 //    public String addCart(ProductDTO productDTO, @AuthenticationPrincipal AuthMemberDTO authMemberDTO){

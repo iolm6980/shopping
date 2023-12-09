@@ -4,19 +4,15 @@ import com.example.shoping.dto.*;
 import com.example.shoping.entity.Member;
 import com.example.shoping.entity.Orders;
 import com.example.shoping.entity.Product;
-import com.example.shoping.repository.MemberRepository;
 import com.example.shoping.repository.OrdersRepository;
 import com.example.shoping.security.dto.AuthMemberDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
@@ -34,8 +30,8 @@ public class OrdersServiceImpl implements OrdersService{
 
     @Override
     public List<OrdersDTO> getOrderList(String userId) {
-        List<Object[]> ordersList = ordersRepository.memberOrderList(userId);
-        List<OrdersDTO> result = ordersList.stream().map(arr -> entityToDTO((Orders)arr[0], (Product)arr[1] , (Member)arr[2])).collect(Collectors.toList());
+        List<Object[]> ordersList = ordersRepository.getMemberOrderList(userId);
+        List<OrdersDTO> result = ordersList.stream().map(arr -> entityToDTO((Orders)arr[0], (Product)arr[1])).collect(Collectors.toList());
         return result;
     }
 
@@ -52,16 +48,27 @@ public class OrdersServiceImpl implements OrdersService{
 //    }
 
     @Override
-    public void deleteOrder(List<Long> ono) {
-        ordersRepository.deleteAllById(ono);
+    public void deleteOrder(List<Long> onoList) {
+        ordersRepository.deleteAllById(onoList);
     }
 
     @Override
     @Transactional
-    public void updateBuy(List<Long> ono) {
-        List<Orders> list = ordersRepository.findAllById(ono);
+    public void updateBuy(List<Long> onoList, Boolean bool) {
+        List<Orders> list = ordersRepository.findAllById(onoList);
         list.forEach(orders -> {
-            orders.changeBuy(true);
+            orders.changeBuy(bool);
         });
+    }
+
+
+    @Override
+    public List<OrdersDTO> getBuyList(AuthMemberDTO authMemberDTO, List<Long> onoList) {
+        List<Object[]> ordersList = new ArrayList<>();
+        onoList.forEach(ono ->{
+            ordersList.addAll(ordersRepository.getOrders(ono));
+        });
+        List<OrdersDTO> result = ordersList.stream().map(arr -> entityToDTO((Orders)arr[0], (Product)arr[1], (Member)arr[2])).collect(Collectors.toList());
+        return result;
     }
 }

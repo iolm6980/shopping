@@ -8,6 +8,7 @@ import com.example.shoping.entity.Seller;
 import com.example.shoping.enums.MemberRole;
 import com.example.shoping.security.dto.AuthMemberDTO;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 public interface OrdersService {
@@ -16,9 +17,11 @@ public interface OrdersService {
     //public PageResultDTO<OrdersDTO, Object[]> getOrderList(String userId, PageRequestDTO pageRequestDTO);
     public List<OrdersDTO> getOrderList(String userId);
 
-    public void deleteOrder(List<Long> ono);
+    public void deleteOrder(List<Long> onoList);
 
-    public void updateBuy(List<Long> ono);
+    public void updateBuy(List<Long> onoList, Boolean bool);
+
+    public List<OrdersDTO> getBuyList(AuthMemberDTO authMemberDTO, List<Long> onoList);
 
     default Orders dtoToEntity(OrdersDTO ordersDTO, ProductDTO productDTO, AuthMemberDTO authMemberDTO, SellerDTO sellerDTO){
         Seller seller = Seller.builder().sno(sellerDTO.getSno()).name(sellerDTO.getSName()).build();
@@ -33,6 +36,17 @@ public interface OrdersService {
                 .seller(seller)
                 .build();
         return orders;
+    }
+
+    default OrdersDTO entityToDTO(Orders orders, Product product){
+        ProductDTO productDTO = entityToDTO(product);
+        OrdersDTO ordersDTO = OrdersDTO.builder()
+                .ono(orders.getOno())
+                .amount(orders.getAmount())
+                .productSize(orders.getProductSize())
+                .productDTO(productDTO)
+                .build();
+        return ordersDTO;
     }
 
     default OrdersDTO entityToDTO(Orders orders, Product product, Member member){

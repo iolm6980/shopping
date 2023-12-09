@@ -6,6 +6,7 @@ import com.example.shoping.security.dto.AuthMemberDTO;
 import com.example.shoping.service.OrdersService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.aspectj.weaver.ast.Or;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -44,10 +45,12 @@ public class OrdersController {
         return "redirect:/orders/myOrderList";
     }
 
-//    @GetMapping("/buy")
-//    public void buy(@RequestParam List<Long> productCheck , Model model, @AuthenticationPrincipal AuthMemberDTO authMemberDTO){
-//        System.out.println(productCheck);
-//        model.addAttribute("productList", ordersService.getOrderList());
-//        model.addAttribute("auth", authMemberDTO);
-//    }
+    @GetMapping("/buy")
+    public void buy(@RequestParam List<Long> productCheck , Model model, @AuthenticationPrincipal AuthMemberDTO authMemberDTO){
+        List<OrdersDTO> list = ordersService.getBuyList(authMemberDTO, productCheck);
+        MemberDTO memberDTO = list.get(0).getMemberDTO();
+        model.addAttribute("orderList", list);
+        model.addAttribute("member", memberDTO);
+        model.addAttribute("auth", authMemberDTO);
+    }
 }
