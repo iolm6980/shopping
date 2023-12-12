@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
@@ -54,10 +55,10 @@ public class OrdersServiceImpl implements OrdersService{
 
     @Override
     @Transactional
-    public void updateBuy(List<Long> onoList, Boolean bool) {
-        List<Orders> list = ordersRepository.findAllById(onoList);
-        list.forEach(orders -> {
-            orders.changeBuy(bool);
+    public void updateBuy(List<OrdersDTO> onoList, Boolean bool) {
+        onoList.forEach(order ->{
+            Optional<Orders> orders = ordersRepository.findById(order.getOno());
+            if(orders.isPresent()) orders.get().changeBuy(bool);
         });
     }
 

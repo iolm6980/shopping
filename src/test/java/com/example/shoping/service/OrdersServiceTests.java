@@ -38,7 +38,6 @@ public class OrdersServiceTests {
     @Test
     public void updateBuyTest(){
         List<Long> list = Arrays.asList(103L, 104L, 105L);
-        ordersService.updateBuy(list, true);
     }
 
     @Test

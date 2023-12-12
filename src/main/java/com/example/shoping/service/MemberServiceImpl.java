@@ -50,7 +50,9 @@ public class MemberServiceImpl implements MemberService{
         Member member = result.get();
         member.setNickName(memberDTO.getNickName());
         member.setEmail(memberDTO.getEmail());
+        member.setAddressNum(memberDTO.getAddressNum());
         member.setAddress(memberDTO.getAddress());
+        member.setDetailAddress(memberDTO.getDetailAddress());
         member.setNumber(memberDTO.getNumber());
         memberRepository.save(member);
     }

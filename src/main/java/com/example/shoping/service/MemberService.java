@@ -20,7 +20,9 @@ public interface MemberService {
                 .password(member.getPassword())
                 .email(member.getEmail())
                 .nickName(member.getNickName())
+                .addressNum(member.getAddressNum())
                 .address(member.getAddress())
+                .detailAddress(member.getDetailAddress())
                 .number(member.getNumber())
                 .build();
         return memberDTO;
@@ -32,7 +34,9 @@ public interface MemberService {
                 .password(passwordEncoder.encode(memberDTO.getPassword()))
                 .email(memberDTO.getEmail())
                 .nickName(memberDTO.getNickName())
+                .addressNum(memberDTO.getAddressNum())
                 .address(memberDTO.getAddress())
+                .detailAddress(memberDTO.getDetailAddress())
                 .number(memberDTO.getNumber())
                 .role(MemberRole.USER)
                 .build();
@@ -45,7 +49,9 @@ public interface MemberService {
                 .password(memberDTO.getPassword())
                 .email(memberDTO.getEmail())
                 .nickName(memberDTO.getNickName())
+                .addressNum(memberDTO.getAddressNum())
                 .address(memberDTO.getAddress())
+                .detailAddress(memberDTO.getDetailAddress())
                 .number(memberDTO.getNumber())
                 .role(MemberRole.USER)
                 .build();

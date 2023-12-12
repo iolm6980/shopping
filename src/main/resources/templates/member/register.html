@@ -37,10 +37,10 @@
               <input class="form-control" type="text" id="address" name="address" placeholder="주소" required><br>
               <input class="form-control" type="text" id="detailAddress" name="detailAddress" placeholder="상세주소" required>
             </div>
-            <div class="form-group">
-              <button class="form-control btn btn-primary rounded submit px-3 register" id="test" type="submit" >Register</button>
-            </div>
           </form>
+          <div class="form-group">
+            <button class="form-control btn btn-primary rounded submit px-3 register" type="submit" onclick="register()">Register</button>
+          </div>
 
         </div>
       </div>
@@ -49,6 +49,44 @@
 </section>
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script>
+    function register(){
+      var flag = 0;
+      const member = {
+        userId: document.getElementById('userId').value,
+        password: document.getElementById('password').value,
+        nickName: document.getElementById('nickName').value,
+        email: document.getElementById('email').value,
+        addressNum: document.getElementById('addressNum').value,
+        address: document.getElementById('address').value,
+        detailAddress: document.getElementById('detailAddress').value
+      }
+      console.log(member);
+      for(key in member) {
+        if(!member[key]){
+          alert("모든 정보를 입력해주세요");
+          flag = 1;
+          break;
+        }
+      }
+
+      if(flag == 0){
+        $.ajax({
+            url: '/member/register',
+            method: 'post',
+            data:  JSON.stringify(member),
+            contentType: 'application/json; charset=utf-8',
+            dataType: 'text',
+            success: function(data){
+               alert("회원가입성공");
+               location.replace("/shopping/login");
+            },
+            error: function(data){
+                alert("회원가입실패");
+            }
+        });
+      }
+  }
+
     function sample6_execDaumPostcode() {
         new daum.Postcode({
             oncomplete: function(data) {

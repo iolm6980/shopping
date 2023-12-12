@@ -26,11 +26,11 @@
                     </tr>
                     <form method="post" class="orders">
                         <tr th:each="orders :${orderList}">
-                            <th class="text-center align-middle"><input type="checkbox" class="product-check" name="productCheck" th:value="${orders.ono}"></th>
+                            <th class="text-center align-middle"><input type="checkbox" class="product-check" name="onoList" th:value="${orders.ono}"></th>
                             <th class="w-40 text-center align-middle"><img class="card-img-top w-40" src="/img/testImg.jpg" alt="..." /></th>
                             <th class="text-center align-middle">[[${orders.productDTO.name}]]</th>
                             <th class="text-center align-middle product-price">[[${orders.productDTO.price}]]</th>
-                            <th class="text-center align-middle">[[${orders.amount}]]</th>
+                            <th class="text-center align-middle product-amount">[[${orders.amount}]]</th>
                             <th class="text-center align-middle">[[${orders.productSize}]]</th>
                         </tr>
                     </form>
@@ -74,7 +74,7 @@
         if($(".check-all").prop("checked")) {
             $(".product-check").prop("checked", true);
             $(".product-price").each(function(){
-                totalPrice += parseInt($(this).text());
+                totalPrice += parseInt($(this).text()) * parseInt($(this).siblings(".product-amount").text());
             });
             $(".total-price").text(totalPrice);
         }
@@ -87,10 +87,11 @@
 
     $(".product-check").change(function(){
         var checkPrice = parseInt($(this).parent().siblings(".product-price").text());
+        var amount = parseInt($(this).parent().siblings(".product-amount").text());
         var totalPrice = parseInt($(".total-price").text());
 
-        if($(this).is(":checked")==true) totalPrice += checkPrice;
-        else totalPrice -= checkPrice;
+        if($(this).is(":checked")==true) totalPrice += checkPrice * amount;
+        else totalPrice -= checkPrice * amount;
         $(".total-price").text(totalPrice);
     });
 

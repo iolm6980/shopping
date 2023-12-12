@@ -1,20 +1,18 @@
 package com.example.shoping.controller;
 
 import com.example.shoping.dto.*;
-import com.example.shoping.entity.Orders;
 import com.example.shoping.security.dto.AuthMemberDTO;
 import com.example.shoping.service.OrdersService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.aspectj.weaver.ast.Or;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
+
 @Controller
 @Log4j2
 @RequiredArgsConstructor
@@ -39,18 +37,29 @@ public class OrdersController {
     }
 
     @PostMapping("/delete")
-    public String deleteOrder(@RequestParam List<Long> productCheck){
-        System.out.println(productCheck);
-        ordersService.deleteOrder(productCheck);
+    public String deleteOrder(@RequestParam List<Long> onoList){
+        System.out.println(onoList);
+        ordersService.deleteOrder(onoList);
         return "redirect:/orders/myOrderList";
     }
 
     @GetMapping("/buy")
-    public void buy(@RequestParam List<Long> productCheck , Model model, @AuthenticationPrincipal AuthMemberDTO authMemberDTO){
-        List<OrdersDTO> list = ordersService.getBuyList(authMemberDTO, productCheck);
+    public void buy(@RequestParam List<Long> onoList , Model model, @AuthenticationPrincipal AuthMemberDTO authMemberDTO){
+        List<OrdersDTO> list = ordersService.getBuyList(authMemberDTO, onoList);
         MemberDTO memberDTO = list.get(0).getMemberDTO();
+        int totalPrice = 0;
+        for(OrdersDTO order: list){
+            totalPrice += order.getProductDTO().getPrice();
+        }
         model.addAttribute("orderList", list);
         model.addAttribute("member", memberDTO);
+        model.addAttribute("totalPrice", totalPrice);
         model.addAttribute("auth", authMemberDTO);
+    }
+
+    @PostMapping("/buy")
+    public void postBuy(@RequestBody List<OrdersDTO> orderList){
+        System.out.println("buy//////////////" + orderList);
+        ordersService.updateBuy(orderList, true);
     }
 }

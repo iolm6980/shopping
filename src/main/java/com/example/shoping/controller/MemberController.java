@@ -28,11 +28,12 @@ public class MemberController {
     public void register(){
     }
     @PostMapping("/register")
-    public String register(MemberDTO memberDTO) {
+    @ResponseBody
+    public ResponseEntity<?> register(@RequestBody MemberDTO memberDTO){
         System.out.println("memberRegister.............................."+ memberDTO);
-        return "redirect:/shopping/list";
-//        if(memberService.memberRegister(memberDTO)) return new ResponseEntity<>("회원가입성공", HttpStatus.OK);
-//        return new ResponseEntity<>("회원가입실패", HttpStatus.BAD_REQUEST);
+
+        if(memberService.memberRegister(memberDTO)) return new ResponseEntity<>("회원가입성공", HttpStatus.OK);
+        return new ResponseEntity<>("회원가입실패", HttpStatus.BAD_REQUEST);
     }
 
     @GetMapping("/modify")

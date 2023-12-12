@@ -19,7 +19,7 @@ public interface OrdersService {
 
     public void deleteOrder(List<Long> onoList);
 
-    public void updateBuy(List<Long> onoList, Boolean bool);
+    public void updateBuy(List<OrdersDTO> OrderList, Boolean bool);
 
     public List<OrdersDTO> getBuyList(AuthMemberDTO authMemberDTO, List<Long> onoList);
 
@@ -38,6 +38,7 @@ public interface OrdersService {
         return orders;
     }
 
+
     default OrdersDTO entityToDTO(Orders orders, Product product){
         ProductDTO productDTO = entityToDTO(product);
         OrdersDTO ordersDTO = OrdersDTO.builder()
@@ -55,7 +56,9 @@ public interface OrdersService {
                 .userId(member.getUserId())
                 .email(member.getEmail())
                 .nickName(member.getNickName())
+                .addressNum(member.getAddressNum())
                 .address(member.getAddress())
+                .detailAddress(member.getDetailAddress())
                 .number(member.getNumber())
                 .build();
 
