@@ -24,14 +24,14 @@
                         <th class="text-center align-middle">수량</th>
                         <th class="text-center align-middle">사이즈</th>
                     </tr>
-                    <form method="post" class="orders">
-                        <tr th:each="orders :${orderList}">
-                            <th class="text-center align-middle"><input type="checkbox" class="product-check" name="onoList" th:value="${orders.ono}"></th>
+                    <form method="post" class="cart">
+                        <tr th:each="cart :${cartList}">
+                            <th class="text-center align-middle"><input type="checkbox" class="product-check" name="cnoList" th:value="${cart.cno}"></th>
                             <th class="w-40 text-center align-middle"><img class="card-img-top w-40" src="/img/testImg.jpg" alt="..." /></th>
-                            <th class="text-center align-middle">[[${orders.productDTO.name}]]</th>
-                            <th class="text-center align-middle product-price">[[${orders.productDTO.price}]]</th>
-                            <th class="text-center align-middle product-amount">[[${orders.amount}]]</th>
-                            <th class="text-center align-middle">[[${orders.productSize}]]</th>
+                            <th class="text-center align-middle">[[${cart.productDTO.name}]]</th>
+                            <th class="text-center align-middle product-price">[[${cart.productDTO.price}]]</th>
+                            <th class="text-center align-middle product-amount">[[${cart.amount}]]</th>
+                            <th class="text-center align-middle">[[${cart.size}]]</th>
                         </tr>
                     </form>
                     </tbody>
@@ -95,19 +95,19 @@
         $(".total-price").text(totalPrice);
     });
 
-    var actionForm = $(".orders");
+    var actionForm = $(".cart");
         $(".select-delete").click(function() {
         alert("삭제 완료");
         actionForm
-            .attr("action", "/orders/delete")
+            .attr("action", "/cart/delete")
             .attr("method","post")
             .submit();
     });
 
-    var actionForm = $(".orders");
+    var actionForm = $(".cart");
         $(".buy-product").click(function() {
         actionForm
-            .attr("action", "/orders/buy")
+            .attr("action", "/cart/buy")
             .attr("method","get")
             .submit();
     });

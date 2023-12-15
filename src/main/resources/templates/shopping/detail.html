@@ -20,11 +20,11 @@
                             <div class="row gx-4 gx-lg-5" id="parent">
                                 <div class="col-md-4">
                                     <img class="card-img-top mb-5 mb-md-0 mainImg" th:src="${product.productImageList[0].path}" alt="..." />
-<!--                                    <div class="d-md-flex">-->
-<!--                                        <img class="changImg" id="1" th:src="${product.productImageList[1].path}" alt="..." />-->
-<!--                                        <img class="changImg" id="2" th:src="${product.productImageList[2].path}" alt="..." />-->
-<!--                                        <img class="changImg" id="3" th:src="${product.productImageList[3].path}" alt="..." />-->
-<!--                                    </div>-->
+                                    <div class="d-md-flex">
+                                        <img class="changImg" id="1" th:src="${product.productImageList[1].path}" alt="..." />
+                                        <img class="changImg" id="2" th:src="${product.productImageList[2].path}" alt="..." />
+                                        <img class="changImg" id="3" th:src="${product.productImageList[3].path}" alt="..." />
+                                    </div>
                                 </div>
                                 <div class="col-md-5" id="product-information">
                                     <h1 class="display-6 fw-bolder">Shop item template</h1>
@@ -43,7 +43,7 @@
 <!--                                    </div>-->
                                     <form id="buy-form">
                                         <div>
-                                            <select class="form-select select-size" name="productSize" aria-label="Default select example">
+                                            <select class="form-select select-size" name="size" aria-label="Default select example">
                                                 <option selected>옵션 선택</option>
                                                 <option th:value="S">S</option>
                                                 <option th:value="M">M</option>
@@ -72,8 +72,6 @@
                                         <input type="hidden" name="price" th:value="${product.price}">
                                         <input type="hidden" name="likeCount" th:value="${product.likeCount}">
                                         <input type="hidden" name="type" th:value="${product.type}">
-                                        <input type="hidden" name="sno" th:value="${product.sellerDTO.sno}">
-                                        <input type="hidden" name="sName" th:value="${product.sellerDTO.sName}">
                                     </form>
                                 </div>
                             </div>
@@ -104,18 +102,11 @@
                 });
             });
 
-
-                $(".select-size").change(function() {
-                    var str = $(".select-size option:selected").val();
-                    $(".select-area").append("<h1>"+str+"</h1>");
-                });
-
-
                 var actionForm = $("#buy-form");
                  $(".addCartBtn").click(function() {
                     alert("장바구니 담기 완료");
                     actionForm
-                        .attr("action", "/orders/addOrder")
+                        .attr("action", "/cart/addOrder")
                         .attr("method","post")
                         .submit();
                 });

@@ -15,14 +15,12 @@ public interface ProductRepository extends JpaRepository<Product, Long> , Queryd
     List<Product> findByType(ProductType productType);
     Page<Product> findByLikeCountGreaterThan(int likeCount, Pageable pageable);
 
-    @Query("select p, pi, s, avg(p.likeCount) from Product p " +
-            "right outer join ProductImage pi on pi.product = p " +
-            "left outer join Seller s on p.seller = s group by p")
+    @Query("select p, pi, avg(p.likeCount) from Product p " +
+            "right outer join ProductImage pi on pi.product = p group by p")
     Page<Object[]> getProductList(Pageable pageable);
 
-    @Query("select distinct p, pi, s from Product p " +
+    @Query("select distinct p, pi from Product p " +
             "left outer join ProductImage pi on pi.product = p " +
-            "left outer join Seller s on p.seller = s " +
             "where p.pno = :pno group by pi")
     List<Object[]> getProduct(Long pno);
 

@@ -21,8 +21,10 @@ public class ProductDTO {
     private int price;
     private int likeCount;
     private ProductType type;
-    private SellerDTO sellerDTO;
     private String id;
+    private String size;
+    private int amount;
+
     @Builder.Default
     private List<ProductImageDTO> productImageList = new ArrayList<>();
 

@@ -37,7 +37,7 @@ public class ProductServiceImpl implements ProductService{
         Pageable pageable = pageRequestDTO.getPageable();
         //BooleanBuilder booleanBuilder = getSearch(pageRequestDTO);
         Page<Object[]> result = productRepository.getProductList(pageable);
-        Function<Object[], ProductDTO> fn = (arr -> entityToDTO((Product)arr[0], Arrays.asList((ProductImage) arr[1]), (Seller) arr[2]));
+        Function<Object[], ProductDTO> fn = (arr -> entityToDTO((Product)arr[0], Arrays.asList((ProductImage) arr[1])));
 
         return new PageResultDTO<>(result, fn);
     }
@@ -51,8 +51,7 @@ public class ProductServiceImpl implements ProductService{
             ProductImage productImage = (ProductImage) arr[1];
             productImageList.add(productImage);
         });
-        Seller seller = (Seller) result.get(0)[2];
-        return entityToDTO(product, productImageList, seller);
+        return entityToDTO(product, productImageList);
     }
 
     private BooleanBuilder getSearch(PageRequestDTO requestDTO){

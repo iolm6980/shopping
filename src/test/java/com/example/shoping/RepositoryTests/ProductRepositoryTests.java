@@ -36,13 +36,11 @@ public class ProductRepositoryTests {
     @Test
     public void InsertProduct(){
         IntStream.rangeClosed(1,200).forEach(i->{
-            Seller seller = Seller.builder().sno((long)(Math.random()*10)+1).build();
             Product product = Product.builder()
                     .name("testProduct"+i)
                     .price((int) (Math.random()*10000))
                     .likeCount((int) (Math.random()*50))
                     .type(ProductType.randomType())
-                    .seller(seller)
                     .build();
             productRepository.save(product);
         });
@@ -50,7 +48,8 @@ public class ProductRepositoryTests {
 
     @Test
     public void getProductList(){
-        List<Product> productList = productRepository.findAll();
+        List<Long> list = Arrays.asList(1L, 2L, 3L, 4L, 5L);
+        List<Product> productList = productRepository.findAllById(list);
 
         System.out.println(productList);
     }

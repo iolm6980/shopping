@@ -1,41 +1,44 @@
 package com.example.shoping.service;
 
 import com.example.shoping.dto.*;
+import com.example.shoping.entity.Cart;
 import com.example.shoping.entity.Member;
 import com.example.shoping.entity.Orders;
 import com.example.shoping.entity.Product;
-import com.example.shoping.entity.Seller;
-import com.example.shoping.enums.MemberRole;
 import com.example.shoping.security.dto.AuthMemberDTO;
-import lombok.extern.log4j.Log4j2;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 public interface OrdersService {
-    public void addOrder(OrdersDTO ordersDTO, ProductDTO productDTO, AuthMemberDTO authMemberDTO, SellerDTO sellerDTO);
-    
-    //public PageResultDTO<OrdersDTO, Object[]> getOrderList(String userId, PageRequestDTO pageRequestDTO);
-    public List<OrdersDTO> getOrderList(String userId);
+    OrdersDTO createOrder(AuthMemberDTO authMemberDTO, List<CartDTO> cartList);
+//    public void addOrder(OrdersDTO ordersDTO, ProductDTO productDTO, AuthMemberDTO authMemberDTO);
+//
+//    //public PageResultDTO<OrdersDTO, Object[]> getOrderList(String userId, PageRequestDTO pageRequestDTO);
+//    public List<OrdersDTO> getOrderList(String userId);
+//
+//    public void deleteOrder(List<Long> onoList);
+//
+//    public void updateBuy(List<OrdersDTO> OrderList, Boolean bool);
+//
+//    public List<OrdersDTO> getBuyList(AuthMemberDTO authMemberDTO, List<Long> onoList);
 
-    public void deleteOrder(List<Long> onoList);
-
-    public void updateBuy(List<OrdersDTO> OrderList, Boolean bool);
-
-    public List<OrdersDTO> getBuyList(AuthMemberDTO authMemberDTO, List<Long> onoList);
-
-    default Orders dtoToEntity(OrdersDTO ordersDTO, ProductDTO productDTO, AuthMemberDTO authMemberDTO, SellerDTO sellerDTO){
-        Seller seller = Seller.builder().sno(sellerDTO.getSno()).name(sellerDTO.getSName()).build();
+    default Orders dtoToEntity(OrdersDTO ordersDTO, ProductDTO productDTO, AuthMemberDTO authMemberDTO){
         Member member = Member.builder().userId(authMemberDTO.getUsername()).build();
         Product product = Product.builder().pno(productDTO.getPno()).build();
 
         Orders orders = Orders.builder()
-                .amount(ordersDTO.getAmount())
-                .productSize(ordersDTO.getProductSize())
-                .member(member)
-                .product(product)
-                .seller(seller)
                 .build();
         return orders;
+    }
+
+    default Cart dtoToEntity(CartDTO cartDTO){
+        Product product = dtoToEntity()
+        Cart cart = Cart.builder()
+                .cno(cartDTO.getCno())
+                .amount(cartDTO.getAmount())
+                .size(cartDTO.getSize())
+                .product()
+                .
+                .build();
     }
 
 
@@ -43,9 +46,7 @@ public interface OrdersService {
         ProductDTO productDTO = entityToDTO(product);
         OrdersDTO ordersDTO = OrdersDTO.builder()
                 .ono(orders.getOno())
-                .amount(orders.getAmount())
-                .productSize(orders.getProductSize())
-                .productDTO(productDTO)
+
                 .build();
         return ordersDTO;
     }
@@ -64,9 +65,7 @@ public interface OrdersService {
 
         OrdersDTO ordersDTO = OrdersDTO.builder()
                 .ono(orders.getOno())
-                .amount(orders.getAmount())
-                .productSize(orders.getProductSize())
-                .productDTO(productDTO)
+
                 .memberDTO(memberDTO)
                 .build();
         return ordersDTO;

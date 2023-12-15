@@ -4,16 +4,12 @@ import com.example.shoping.dto.*;
 import com.example.shoping.entity.Member;
 import com.example.shoping.enums.MemberRole;
 import com.example.shoping.entity.Product;
-import com.example.shoping.entity.Seller;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 public interface MemberService {
     boolean memberRegister(MemberDTO memberDTO);
     MemberDTO getMember(String uid);
     void modify(MemberDTO memberDTO);
-    void addMyCart(ProductDTO productDTO, String userId);
-
-    PageResultDTO<ProductDTO, Product> getMyCart(String uid, PageRequestDTO pageRequestDTO);
     default MemberDTO entityToDto(Member member){
         MemberDTO memberDTO = MemberDTO.builder()
                 .userId(member.getUserId())
@@ -69,7 +65,6 @@ public interface MemberService {
         return productDTO;
     }
     default Product dtoToEntity(ProductDTO productDTO){
-        Seller seller = Seller.builder().sno(productDTO.getSellerDTO().getSno()).build();
 
         Product product = Product.builder()
                 .pno(productDTO.getPno())
@@ -77,7 +72,6 @@ public interface MemberService {
                 .price(productDTO.getPrice())
                 .likeCount(productDTO.getLikeCount())
                 .type(productDTO.getType())
-                .seller(seller)
                 .build();
         return product;
     }

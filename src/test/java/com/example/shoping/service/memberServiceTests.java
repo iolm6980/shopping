@@ -21,16 +21,6 @@ public class memberServiceTests {
     @Autowired
     private MemberService memberService;
 
-    @Test
-    public void printMyCart(){
-        PageRequestDTO pageRequestDTO = new PageRequestDTO();
-        pageRequestDTO.setSize(5);
-        PageResultDTO result = memberService.getMyCart("testId1", pageRequestDTO);
-        System.out.println();
-        System.out.println("current page = " + result.getTotalPage());
-        System.out.println();
-        System.out.println(result.getPageList());
-    }
 
     @Test
     public void cartTest(){

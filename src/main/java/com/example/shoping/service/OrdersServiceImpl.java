@@ -1,6 +1,7 @@
 package com.example.shoping.service;
 
 import com.example.shoping.dto.*;
+import com.example.shoping.entity.Cart;
 import com.example.shoping.entity.Member;
 import com.example.shoping.entity.Orders;
 import com.example.shoping.entity.Product;
@@ -21,55 +22,66 @@ import java.util.stream.Collectors;
 @Service
 public class OrdersServiceImpl implements OrdersService{
     private final OrdersRepository ordersRepository;
-    @Override
-    public void addOrder(OrdersDTO ordersDTO, ProductDTO productDTO, AuthMemberDTO authMemberDTO, SellerDTO sellerDTO) {
-        Orders orders = dtoToEntity(ordersDTO, productDTO, authMemberDTO, sellerDTO);
-        System.out.println("orders...."+ orders.getSeller());
-
-        ordersRepository.save(orders);
-    }
 
     @Override
-    public List<OrdersDTO> getOrderList(String userId) {
-        List<Object[]> ordersList = ordersRepository.getMemberOrderList(userId);
-        List<OrdersDTO> result = ordersList.stream().map(arr -> entityToDTO((Orders)arr[0], (Product)arr[1])).collect(Collectors.toList());
-        return result;
+    public OrdersDTO createOrder(AuthMemberDTO authMemberDTO, List<CartDTO> cartList) {
+        List<Cart> list = cartList.stream().map(cart ->{dtoToEntity(cart)});
+        Orders orders = Orders.builder()
+
+                .cartList(cartList)
+                .build();
+        return null;
     }
+
 
 //    @Override
-//    public PageResultDTO<OrdersDTO, Object[]> getOrderList(String userId ,PageRequestDTO pageRequestDTO) {
-//        List<Object[]> productList = ordersRepository.orderList(userId);
-//        Function<Object[], OrdersDTO> fn = (arr -> entityToDTO((Orders)arr[0], (Product)arr[1]));
+//    public void addOrder(OrdersDTO ordersDTO, ProductDTO productDTO, AuthMemberDTO authMemberDTO) {
+//        Orders orders = dtoToEntity(ordersDTO, productDTO, authMemberDTO);
 //
-//        int start = (pageRequestDTO.getPage()-1) * pageRequestDTO.getSize();
-//        int end = start + pageRequestDTO.getSize() > productList.size() ? productList.size() : start + pageRequestDTO.getSize();
-//        Page<Object[]> page = new PageImpl<>(productList.subList(start, end), pageRequestDTO.getPageable(), productList.size());
-//
-//        return new PageResultDTO<>(page, fn);
+//        ordersRepository.save(orders);
 //    }
-
-    @Override
-    public void deleteOrder(List<Long> onoList) {
-        ordersRepository.deleteAllById(onoList);
-    }
-
-    @Override
-    @Transactional
-    public void updateBuy(List<OrdersDTO> onoList, Boolean bool) {
-        onoList.forEach(order ->{
-            Optional<Orders> orders = ordersRepository.findById(order.getOno());
-            if(orders.isPresent()) orders.get().changeBuy(bool);
-        });
-    }
-
-
-    @Override
-    public List<OrdersDTO> getBuyList(AuthMemberDTO authMemberDTO, List<Long> onoList) {
-        List<Object[]> ordersList = new ArrayList<>();
-        onoList.forEach(ono ->{
-            ordersList.addAll(ordersRepository.getOrders(ono));
-        });
-        List<OrdersDTO> result = ordersList.stream().map(arr -> entityToDTO((Orders)arr[0], (Product)arr[1], (Member)arr[2])).collect(Collectors.toList());
-        return result;
-    }
+//
+//    @Override
+//    public List<OrdersDTO> getOrderList(String userId) {
+//        List<Object[]> ordersList = ordersRepository.getMemberOrderList(userId);
+//        List<OrdersDTO> result = ordersList.stream().map(arr -> entityToDTO((Orders)arr[0], (Product)arr[1])).collect(Collectors.toList());
+//        return result;
+//    }
+//
+////    @Override
+////    public PageResultDTO<OrdersDTO, Object[]> getOrderList(String userId ,PageRequestDTO pageRequestDTO) {
+////        List<Object[]> productList = ordersRepository.orderList(userId);
+////        Function<Object[], OrdersDTO> fn = (arr -> entityToDTO((Orders)arr[0], (Product)arr[1]));
+////
+////        int start = (pageRequestDTO.getPage()-1) * pageRequestDTO.getSize();
+////        int end = start + pageRequestDTO.getSize() > productList.size() ? productList.size() : start + pageRequestDTO.getSize();
+////        Page<Object[]> page = new PageImpl<>(productList.subList(start, end), pageRequestDTO.getPageable(), productList.size());
+////
+////        return new PageResultDTO<>(page, fn);
+////    }
+//
+//    @Override
+//    public void deleteOrder(List<Long> onoList) {
+//        ordersRepository.deleteAllById(onoList);
+//    }
+//
+//    @Override
+//    @Transactional
+//    public void updateBuy(List<OrdersDTO> onoList, Boolean bool) {
+//        onoList.forEach(order ->{
+//            Optional<Orders> orders = ordersRepository.findById(order.getOno());
+//            if(orders.isPresent()) orders.get().changeBuy(bool);
+//        });
+//    }
+//
+//
+//    @Override
+//    public List<OrdersDTO> getBuyList(AuthMemberDTO authMemberDTO, List<Long> onoList) {
+//        List<Object[]> ordersList = new ArrayList<>();
+//        onoList.forEach(ono ->{
+//            ordersList.addAll(ordersRepository.getOrders(ono));
+//        });
+//        List<OrdersDTO> result = ordersList.stream().map(arr -> entityToDTO((Orders)arr[0], (Product)arr[1], (Member)arr[2])).collect(Collectors.toList());
+//        return result;
+//    }
 }

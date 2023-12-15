@@ -26,6 +26,7 @@ public class HomeController {
 
     @GetMapping("/detail")
     public void detail(Long pno ,@AuthenticationPrincipal AuthMemberDTO authMember, Model model){
+        System.out.println(productService.getProduct(pno));
         model.addAttribute("auth", authMember);
         model.addAttribute("product", productService.getProduct(pno));
         System.out.println(authMember + "정보...............");

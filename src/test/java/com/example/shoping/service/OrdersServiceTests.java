@@ -31,8 +31,6 @@ public class OrdersServiceTests {
 
     @Test
     public void orderListTest(){
-        List<OrdersDTO> result = ordersService.getOrderList("testId1");
-        System.out.println(result);
     }
 
     @Test
@@ -42,10 +40,10 @@ public class OrdersServiceTests {
 
     @Test
     public void getBuyList(){
-        List<Long> o = Arrays.asList(132L, 133L, 134L);
-        List<GrantedAuthority> roles = new ArrayList<GrantedAuthority>();
-        roles.add(new SimpleGrantedAuthority("ROLE_" + MemberRole.USER));
-        List<OrdersDTO> list = ordersService.getBuyList(new AuthMemberDTO("testId1", "1111", roles), o);
-        System.out.println(list);
+//        List<Long> o = Arrays.asList(132L, 133L, 134L);
+//        List<GrantedAuthority> roles = new ArrayList<GrantedAuthority>();
+//        roles.add(new SimpleGrantedAuthority("ROLE_" + MemberRole.USER));
+//        List<OrdersDTO> list = ordersService.getBuyList(new AuthMemberDTO("testId1", "1111", roles), o);
+//        System.out.println(list);
     }
 }

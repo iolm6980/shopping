@@ -1,62 +1,53 @@
 package com.example.shoping.RepositoryTests;
 
-import com.example.shoping.dto.OrdersDTO;
+import com.example.shoping.entity.Cart;
 import com.example.shoping.entity.Member;
 import com.example.shoping.entity.Orders;
 import com.example.shoping.entity.Product;
-import com.example.shoping.entity.Seller;
+import com.example.shoping.repository.CartRepository;
 import com.example.shoping.repository.OrdersRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.*;
 import java.util.stream.IntStream;
-import java.util.List;
 
 @SpringBootTest
 public class OrdersRepositoryTests {
     @Autowired
     private OrdersRepository ordersRepository;
+    @Autowired
+    private CartRepository cartRepository;
 
     @Test
     public void saveTest(){
-        IntStream.rangeClosed(1,10).forEach(i -> {
-            Seller seller = Seller.builder().sno(Long.valueOf(i)).build();
-            Member member = Member.builder().userId("testId1").build();
-            Product product = Product.builder().pno(Long.valueOf(i)).build();
+        List<Cart> list = cartRepository.findAll();
 
-            Orders orders = Orders.builder()
-                    .amount(2L)
-                    .productSize("L")
-                    .member(member)
-                    .product(product)
-                    .seller(seller)
-                    .build();
+        System.out.println(list);
+        Orders orders = Orders.builder()
+                .orderName("testOrder")
+                .totalPrice(12000)
+                .cartList(list)
+                .build();
+        ordersRepository.save(orders);
 
-            ordersRepository.save(orders);
-        });
-    }
-
-    @Test
-    public void getListTest(){
-        List<Object[]> list = ordersRepository.getMemberOrderList("testId1");
-        for(Object[] objects : list){
-            System.out.println(Arrays.toString(objects));
-        }
+        System.out.println(orders);
     }
 
     @Test
     public void getOrders(){
-        List<Long> o = Arrays.asList(132L, 133L, 134L);
-        List<Object[]> list = new ArrayList<>();
-        o.forEach(i ->{
-            list.addAll(ordersRepository.getOrders(i));
-        });
+        List<Object[]> list = ordersRepository.getOrders();
+
         for(Object[] objects : list){
             System.out.println(Arrays.toString(objects));
         }
     }
+
+    @Test
+    public void deleteTest(){
+        ordersRepository.deleteById(2L);
+    }
+
 }

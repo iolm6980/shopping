@@ -4,31 +4,27 @@ import lombok.*;
 import org.hibernate.annotations.Fetch;
 
 import javax.persistence.*;
+import java.sql.Array;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Builder
-@ToString(exclude = {"seller", "product", "member"})
+@ToString(exclude = { "cartList"})
 public class Orders extends BaseEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long ono;
-    private Long amount;
-    private String productSize;
-    private boolean isBuy;
+    private int totalPrice;
+    private String orderName;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    private Member member;
+    @Builder.Default
+    @OneToMany(mappedBy = "orders")
+    private List<Cart> cartList = new ArrayList<>();
 
-    @OneToOne(fetch = FetchType.LAZY)
-    private Product product;
-
-    @OneToOne(fetch = FetchType.LAZY)
-    private Seller seller;
-
-    public void changeBuy(boolean buy){
-        this.isBuy = buy;
-    }
 }
