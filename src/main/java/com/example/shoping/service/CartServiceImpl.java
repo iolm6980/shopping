@@ -5,6 +5,7 @@ import com.example.shoping.dto.OrdersDTO;
 import com.example.shoping.dto.ProductDTO;
 import com.example.shoping.entity.Cart;
 import com.example.shoping.entity.Member;
+import com.example.shoping.entity.Orders;
 import com.example.shoping.entity.Product;
 import com.example.shoping.repository.CartRepository;
 import com.example.shoping.security.dto.AuthMemberDTO;
@@ -32,12 +33,29 @@ public class CartServiceImpl implements CartService{
     }
 
     @Override
+    public List<CartDTO> getBuyList(String userId) {
+        List<Object[]> ordersList = cartRepository.getBuyListByUserId(userId);
+        List<CartDTO> result = ordersList.stream().map(arr -> entityToDTO((Cart) arr[0], (Product)arr[1])).collect(Collectors.toList());
+        return result;
+    }
+
+    @Override
     public void deleteCart(List<Long> cnoList) {
         cartRepository.deleteAllById(cnoList);
     }
 
     @Override
-    public List<CartDTO> getBuyList(AuthMemberDTO authMemberDTO, List<Long> cnoList) {
+    public void updateOrder(OrdersDTO ordersDTO) {
+        List<Long> dtoList = ordersDTO.getCartList().stream().map(cartDTO -> cartDTO.getCno()).collect(Collectors.toList());
+        List<Cart> list = cartRepository.findAllById(dtoList);
+        list.forEach(cart ->{
+            cartRepository.updateCartOrder(cart.getCno(), ordersDTO.getOno());
+        });
+
+    }
+
+    @Override
+    public List<CartDTO> getCheckList(AuthMemberDTO authMemberDTO, List<Long> cnoList) {
         List<Object[]> ordersList = new ArrayList<>();
         cnoList.forEach(cno ->{
             ordersList.addAll(cartRepository.getCart(cno));

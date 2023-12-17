@@ -4,6 +4,7 @@ import com.example.shoping.dto.CartDTO;
 import com.example.shoping.dto.MemberDTO;
 import com.example.shoping.dto.OrdersDTO;
 import com.example.shoping.dto.ProductDTO;
+import com.example.shoping.entity.Orders;
 import com.example.shoping.security.dto.AuthMemberDTO;
 import com.example.shoping.service.CartService;
 import lombok.RequiredArgsConstructor;
@@ -40,6 +41,14 @@ public class CartController {
         model.addAttribute("auth", authMemberDTO);
     }
 
+    @GetMapping("/myBuyList")
+    public void myBuyList(@AuthenticationPrincipal AuthMemberDTO authMemberDTO, Model model){
+        List<CartDTO> result = cartService.getBuyList(authMemberDTO.getUsername());
+        System.out.println("buyList---------" + result);
+        model.addAttribute("buyList", result);
+        model.addAttribute("auth", authMemberDTO);
+    }
+
     @PostMapping("/delete")
     public String deleteOrder(@RequestParam List<Long> cnoList){
         System.out.println(cnoList);
@@ -49,7 +58,7 @@ public class CartController {
 
     @GetMapping("/buy")
     public void buy(@RequestParam List<Long> cnoList , Model model, @AuthenticationPrincipal AuthMemberDTO authMemberDTO){
-        List<CartDTO> list = cartService.getBuyList(authMemberDTO, cnoList);
+        List<CartDTO> list = cartService.getCheckList(authMemberDTO, cnoList);
         MemberDTO memberDTO = list.get(0).getMemberDTO();
         int totalPrice = 0;
         for(CartDTO cartDTO: list){
@@ -61,4 +70,10 @@ public class CartController {
         model.addAttribute("auth", authMemberDTO);
     }
 
+    @PostMapping("/update")
+    public ResponseEntity<?> update(@RequestBody OrdersDTO ordersDTO){
+        System.out.println("------------------- " + ordersDTO);
+        cartService.updateOrder(ordersDTO);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 }

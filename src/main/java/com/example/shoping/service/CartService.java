@@ -10,16 +10,17 @@ import com.example.shoping.entity.Orders;
 import com.example.shoping.entity.Product;
 import com.example.shoping.security.dto.AuthMemberDTO;
 import java.util.List;
+import java.util.stream.Collectors;
+
 public interface CartService {
     public void addCart(CartDTO cartDTO, ProductDTO productDTO, AuthMemberDTO authMemberDTO);
 
-//    //public PageResultDTO<OrdersDTO, Object[]> getOrderList(String userId, PageRequestDTO pageRequestDTO);
     public List<CartDTO> getCartList(String userId);
+    public List<CartDTO> getBuyList(String userId);
     public void deleteCart(List<Long> cnoList);
-//
-//    public void updateBuy(List<CartDTO> cartList, Boolean bool);
-//
-    public List<CartDTO> getBuyList(AuthMemberDTO authMemberDTO, List<Long> cnoList);
+
+    public void updateOrder(OrdersDTO ordersDTO);
+    public List<CartDTO> getCheckList(AuthMemberDTO authMemberDTO, List<Long> cnoList);
 
     default Cart dtoToEntity(CartDTO cartDTO, ProductDTO productDTO, AuthMemberDTO authMemberDTO){
         Member member = Member.builder().userId(authMemberDTO.getUsername()).build();
@@ -32,18 +33,6 @@ public interface CartService {
                 .member(member)
                 .build();
         return cart;
-    }
-
-
-    default CartDTO entityToDTO(Cart cart, Product product){
-        ProductDTO productDTO = entityToDTO(product);
-        CartDTO cartDTO = CartDTO.builder()
-                .cno(cart.getCno())
-                .amount(cart.getAmount())
-                .size(cart.getSize())
-                .productDTO(productDTO)
-                .build();
-        return cartDTO;
     }
 
     default CartDTO entityToDTO(Cart cart, Product product, Member member){
@@ -59,6 +48,19 @@ public interface CartService {
                 .build();
         return cartDTO;
     }
+
+    default CartDTO entityToDTO(Cart cart, Product product){
+        ProductDTO productDTO = entityToDTO(product);
+
+        CartDTO cartDTO = CartDTO.builder()
+                .cno(cart.getCno())
+                .amount(cart.getAmount())
+                .size(cart.getSize())
+                .productDTO(productDTO)
+                .build();
+        return cartDTO;
+    }
+
     default ProductDTO entityToDTO(Product product){
         ProductDTO productDTO = ProductDTO.builder()
                 .pno(product.getPno())

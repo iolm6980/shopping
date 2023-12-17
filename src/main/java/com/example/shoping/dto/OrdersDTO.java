@@ -14,6 +14,5 @@ public class OrdersDTO {
     private String orderName;
     private int totalPrice;
     private List<CartDTO> cartList;
-    private MemberDTO memberDTO;
 
 }

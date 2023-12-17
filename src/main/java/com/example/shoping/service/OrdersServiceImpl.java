@@ -24,13 +24,21 @@ public class OrdersServiceImpl implements OrdersService{
     private final OrdersRepository ordersRepository;
 
     @Override
-    public OrdersDTO createOrder(AuthMemberDTO authMemberDTO, List<CartDTO> cartList) {
-        List<Cart> list = cartList.stream().map(cart ->{dtoToEntity(cart)});
+    public OrdersDTO createOrder(List<CartDTO> cartList) {
+        List<Cart> list = cartList.stream().map(cart ->dtoToEntity(cart)).collect(Collectors.toList());
+        int totalPrice = 0;
+        for (CartDTO cart : cartList) {
+            totalPrice += cart.getProductDTO().getPrice();
+        }
+        String orderName = cartList.size() == 1? String.valueOf(cartList.get(0).getProductDTO().getName())
+                : cartList.get(0).getProductDTO().getName() + " 외" + Integer.valueOf(cartList.size()-1);
         Orders orders = Orders.builder()
-
-                .cartList(cartList)
+                .orderName(orderName)
+                .totalPrice(totalPrice)
+                .cartList(list)
                 .build();
-        return null;
+        ordersRepository.save(orders);
+        return entityToDTO(orders);
     }
 
 

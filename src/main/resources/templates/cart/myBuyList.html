@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <div th:replace="~{layout/layout :: head}"></div>
+</head>
+<body>
+<div class="d-flex" id="wrapper">
+    <!-- Sidebar-->
+    <div th:replace="~{layout/layout :: side}"></div>
+    <!-- Page content wrapper-->
+    <div id="page-content-wrapper" class="pb-8">
+        <!-- Top navigation-->
+        <div th:replace="~{layout/layout :: top}"></div>
+        <!-- Page content-->
+        <div class="justify-content-center">
+            <div class="w-60 m-3 m-auto">
+                <table class="table">
+                    <tbody>
+                    <tr>
+                        <th class="text-center align-middle">이미지</th>
+                        <th class="text-center align-middle">상품명</th>
+                        <th class="text-center align-middle">가격</th>
+                        <th class="text-center align-middle">수량</th>
+                        <th class="text-center align-middle">사이즈</th>
+                    </tr>
+                    <form method="post" class="cart">
+                        <tr th:each="cart :${buyList}">
+                            <th class="w-40 text-center align-middle"><img class="card-img-top w-40" src="/img/testImg.jpg" alt="..." /></th>
+                            <th class="text-center align-middle"><a th:href="@{/shopping/detail(pno=${cart.productDTO.pno})}">[[${cart.productDTO.name}]]</a></th>
+                            <th class="text-center align-middle product-price">[[${cart.productDTO.price}]]</th>
+                            <th class="text-center align-middle product-amount">[[${cart.amount}]]</th>
+                            <th class="text-center align-middle">[[${cart.size}]]</th>
+                        </tr>
+                    </form>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+<!-- Core theme JS-->
+</body>
+</html>

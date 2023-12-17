@@ -68,46 +68,57 @@
     function buy(){
         var cart = [[${cart}]];
         console.log(cart);
-            $.ajax({
+        $.ajax({
             url: '/orders/buy',
             method: 'post',
             data:  JSON.stringify(cart),
             contentType: 'application/json; charset=utf-8',
-            dataType: 'text',
+            dataType: 'json',
             success: function(data){
-               alert("회원가입성공");
-               console.log(data);
+               requestPay(data);
             },
             error: function(data){
-                alert("회원가입실패");
+                alert("결제 실패");
             }
         });
     }
-    function requestPay() {
+    function requestPay(data) {
       var IMP = window.IMP;
       IMP.init('imp25316417');
       IMP.request_pay({
         pg: 'tosspay',
         pay_method: "card",
-        merchant_uid : 'order_1',
-        name : 'test',
+        merchant_uid : data.ono,
+        name : data.orderName,
         amount : [[${totalPrice}]],
         buyer_email : [[${member.email}]],
         buyer_name : [[${member.nickName}]],
         buyer_tel : [[${member.number}]],
         buyer_addr : [[${member.address}]],
         buyer_postcode : [[${member.addressNum}]],
-        m_redirect_url : '{/shopping/list}'
       }, function (rsp) { // callback
           if (rsp.success) {
           alert("결제가 완료되었습니다");
-
            console.log(rsp);
+           updateCart(data);
+           location.href = '/shopping/list';
           } else {
           alert(rsp.error_msg);
             console.log(rsp);
           }
       });
+    }
+
+    function updateCart(orders){
+        console.log("==================");
+        console.log(orders);
+        $.ajax({
+            url: '/cart/update',
+            method: 'post',
+            data:  JSON.stringify(orders),
+            contentType: 'application/json; charset=utf-8',
+            dataType: 'json'
+        });
     }
 
 </script>

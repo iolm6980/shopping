@@ -1,8 +1,10 @@
 package com.example.shoping.controller;
 
 import com.example.shoping.dto.*;
+import com.example.shoping.entity.Orders;
 import com.example.shoping.security.dto.AuthMemberDTO;
 import com.example.shoping.service.OrdersService;
+import com.querydsl.core.types.Order;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpEntity;
@@ -62,7 +64,10 @@ public class OrdersController {
     @PostMapping("/buy")
     public ResponseEntity<?> postBuy(@RequestBody List<CartDTO> cartList){
         System.out.println(cartList);
-
-        return new ResponseEntity<>(cartList, HttpStatus.OK);
+        OrdersDTO orders = ordersService.createOrder(cartList);
+        System.out.println("order" + orders);
+        return new ResponseEntity<>(orders, HttpStatus.OK);
     }
+
+
 }

@@ -24,7 +24,13 @@ public class cartServiceTest {
 
         List<GrantedAuthority> roles = new ArrayList<GrantedAuthority>();
         roles.add(new SimpleGrantedAuthority("ROLE_" + MemberRole.USER));
-        List<CartDTO> list = cartService.getBuyList(new AuthMemberDTO("testId1", "1111", roles), cnoList);
+        List<CartDTO> list = cartService.getCheckList(new AuthMemberDTO("testId1", "1111", roles), cnoList);
+        System.out.println(list);
+    }
+
+    @Test
+    public void getBuyList(){
+        List<CartDTO> list = cartService.getBuyList("testId1");
         System.out.println(list);
     }
 }

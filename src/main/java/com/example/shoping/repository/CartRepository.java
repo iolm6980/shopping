@@ -13,12 +13,14 @@ import java.util.List;
 public interface CartRepository extends JpaRepository<Cart, Long> {
     @Modifying
     @Transactional
-    @Query("update Cart c set c.orders = :orders where c.cno = :cno")
-    void updateCartOrder(Long cno, Orders orders);
+    @Query("update Cart c set c.orders.ono = :ono where c.cno = :cno")
+    void updateCartOrder(Long cno, Long ono);
 
-    @Query("select c, c.product, c.member from Cart c where c.member.userId = :userId")
+    @Query("select c, c.product, c.member from Cart c where c.member.userId = :userId and c.orders IS NULL")
     List<Object[]> getCartListByUserId(String userId);
-
+    @Query("select c, c.product from Cart c where c.member.userId = :userId and c.orders IS NOT NULL")
+    List<Object[]> getBuyListByUserId(String userId);
     @Query("select c, c.product, c.member from Cart c where c.cno = :cno")
     List<Object[]> getCart(Long cno);
+
 }

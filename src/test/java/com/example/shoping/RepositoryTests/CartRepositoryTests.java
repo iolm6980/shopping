@@ -36,16 +36,18 @@ public class CartRepositoryTests {
     @Test
     public void setCart(){
         List<Cart> list = cartRepository.findAll();
-        Orders orders = Orders.builder().ono(1L).build();
+        Orders orders = Orders.builder().ono(29L).build();
         for (Cart cart : list) {
-            cartRepository.updateCartOrder(cart.getCno(), orders);
+            cartRepository.updateCartOrder(cart.getCno(), orders.getOno());
         }
     }
 
     @Test
-    public void getCart(){
-        List<Long> a = Arrays.asList(20L, 21L);
-        List<Cart> list = cartRepository.findAll();
-        System.out.println(list);
+    public void getBuyList(){
+        List<Object[]> list = cartRepository.getBuyListByUserId("testId1");
+        for(Object[] obj : list){
+            System.out.println(Arrays.toString(obj));
+        }
     }
+
 }
