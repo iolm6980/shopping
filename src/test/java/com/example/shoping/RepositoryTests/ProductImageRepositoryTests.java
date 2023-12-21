@@ -21,17 +21,24 @@ public class ProductImageRepositoryTests {
     private ProductImageRepository productImageRepository;
     @Test
     public void insertImage(){
-        Long[] num = {1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L, 9L};
-        IntStream.rangeClosed(0, 8).forEach(i ->{
-            String folderPath = "https://picsum.photos/id/" + (i) + "/200/200";
-            ProductImage img = ProductImage.builder()
-                                .uuid(String.valueOf(i))
-                                .path(folderPath)
-                                .imgName("test"+i)
-                                .product(Product.builder().pno(num[i]).build())
-                                .build();
-            productImageRepository.save(img);
+        IntStream.rangeClosed(1, 4).forEach(j ->{
+            IntStream.rangeClosed(1, 150).forEach(i ->{
+                String folderPath = "https://picsum.photos/id/" + (i * j) + "/200/200";
+                ProductImage img = ProductImage.builder()
+                        .uuid(String.valueOf(i))
+                        .path(folderPath)
+                        .imgName("test"+i)
+                        .product(Product.builder().pno(Long.valueOf(i)).build())
+                        .build();
+                productImageRepository.save(img);
+            });
         });
+
+    }
+
+    @Test
+    public void deleteImg(){
+        productImageRepository.deleteByPno(1L);
     }
 
 }

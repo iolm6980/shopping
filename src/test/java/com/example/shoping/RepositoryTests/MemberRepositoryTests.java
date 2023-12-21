@@ -33,6 +33,15 @@ public class MemberRepositoryTests {
 
             memberRepository.save(member);
         });
+        Member member = Member.builder()
+                .userId("admin")
+                .password(passwordEncoder.encode("1111"))
+                .email("admin@naver.com")
+                .address("admin")
+                .number("admin")
+                .role(MemberRole.ADMIN)
+                .build();
+        memberRepository.save(member);
     }
 
     @Test

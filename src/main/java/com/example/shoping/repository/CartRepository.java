@@ -23,4 +23,9 @@ public interface CartRepository extends JpaRepository<Cart, Long> {
     @Query("select c, c.product, c.member from Cart c where c.cno = :cno")
     List<Object[]> getCart(Long cno);
 
+    @Modifying
+    @Transactional
+    @Query("delete from Cart c where c.product.pno = :pno")
+    void deleteByPno(Long pno);
+
 }

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.w3.org/1999/xhtml">
     <head>
         <div th:replace="~{layout/layout :: head}"></div>
     </head>
@@ -16,24 +16,35 @@
                     <section class="py-5">
                         <div class="container px-4 px-lg-5 mt-5">
                             <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
-                                <a th:each="dto: ${result.dtoList}" th:href="@{/shopping/detail(pno=${dto.pno})}">
-                                    <div class="col mb-5">
-                                        <div class="card h-100">
-                                            <!-- Product image-->
-                                            <img class="card-img-top" th:src="${dto.productImageList[0].path}" alt="..." />
-                                            <hr>
-                                            <!-- Product details-->
-                                            <div class="card-body p-4">
-                                                <div class="text-center">
-                                                    <!-- Product name-->
-                                                    <h5 class="fw-bolder">[[${dto.name}]]</h5>
-                                                    <!-- Product price-->
-                                                    [[${dto.price}]]
+                                <div th:each="dto: ${result.dtoList}">
+                                    <form th:action="@{|/shopping/remove/${dto.pno}|}" method="post">
+                                        <button sec:authorize="hasRole('ADMIN')" type="submit">X</button>
+                                    </form>
+                                    <a th:href="@{/shopping/detail(pno=${dto.pno})}">
+
+                                        <div class="col mb-5">
+                                            <div class="card h-100">
+                                                <!-- Product image-->
+                                                <img class="card-img-top" th:src="${dto.productImageList[0].path}" alt="..." />
+                                                <hr>
+                                                <!-- Product details-->
+                                                <div class="card-body p-4">
+                                                    <div class="text-center">
+                                                        <!-- Product name-->
+                                                        <h5 class="fw-bolder">[[${dto.name}]]</h5>
+                                                        <!-- Product price-->
+                                                        [[${dto.price}]]
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </a>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="search">
+                                <form action="/shopping/list" method="get">
+                                    <input class="search-input" name="keyword" th:value="${pageRequestDTO.keyword}" placeholder="검색어 입력">
+                                </form>
                             </div>
                         </div>
                     </section>
@@ -73,4 +84,24 @@
         <!-- Core theme JS-->
 
     </body>
+<script th:inline="javascript">
+    function removeProduct(pno){
+        $.ajax({
+            url: '/shopping/remove',
+            method: 'post',
+            data: pno,
+            contentType: 'application/json; charset=utf-8',
+            success: function(){
+               alert("상품 삭제 성공")
+            },
+            error: function(){
+                alert("상품 삭제 실패")
+            }
+        });
+    }
+
+    function testClick(data){
+       console.log(data);
+    }
+</script>
 </html>

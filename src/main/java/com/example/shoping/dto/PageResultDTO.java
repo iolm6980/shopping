@@ -33,6 +33,7 @@ public class PageResultDTO<DTO, EN> {
         makePageList(result.getPageable());
     }
 
+
 //    public PageResultDTO(List<EN> result, Function<EN, DTO> fn, Pageable pageable) {
 //        dtoList = result.stream().map(fn).collect(Collectors.toList());
 //        System.out.println( "result.size "+ result.size() + " pageable.getPageSize()" + pageable.getPageSize());

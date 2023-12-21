@@ -10,6 +10,19 @@
  * Copyright 2011-2022 Twitter, Inc.
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
  */
+
+ .search {
+   width: 300px;
+ }
+
+ .search-input {
+   width: 200%;
+   border: 1px solid #bbb;
+   border-radius: 8px;
+   padding: 10px 12px;
+   font-size: 14px;
+ }
+
 :root {
   --bs-blue: #0d6efd;
   --bs-indigo: #6610f2;

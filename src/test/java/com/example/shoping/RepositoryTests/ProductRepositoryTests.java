@@ -80,13 +80,12 @@ public class ProductRepositoryTests {
 
     @Test
     public void testGetProductList(){
-        PageRequest pageRequest = PageRequest.of(0,10);
-        Page<Object[]> result = productRepository.getProductList(pageRequest);
-        for(Object[] objects : result.getContent()){
-            System.out.println(Arrays.toString(objects));
-        }
-
-
+//        PageRequest pageRequest = PageRequest.of(0,10);
+//        Page<Object[]> result = productRepository.getProductList(pageRequest);
+//        for(Object[] objects : result.getContent()){
+//            System.out.println(Arrays.toString(objects));
+//        }
+//
     }
 
     @Test
@@ -113,4 +112,22 @@ public class ProductRepositoryTests {
 
         return productDTO;
     }
+
+    @Test
+    public void deleteTest(){
+        productRepository.deleteById(1L);
+    }
+
+    @Test
+    public void modifyTest(){
+        Product product = Product.builder()
+                .pno(3L)
+                .name("modifyProduct")
+                .price(1)
+                .likeCount(1)
+                .type(ProductType.PANTS)
+                .build();
+        productRepository.save(product);
+    }
+
 }

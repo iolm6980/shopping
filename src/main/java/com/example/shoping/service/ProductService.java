@@ -4,6 +4,7 @@ import com.example.shoping.dto.*;
 import com.example.shoping.entity.Member;
 import com.example.shoping.entity.Product;
 import com.example.shoping.entity.ProductImage;
+import org.springframework.data.domain.Page;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -11,9 +12,10 @@ import java.util.stream.Collectors;
 public interface ProductService {
     PageResultDTO<ProductDTO, Object[]> getProductList(PageRequestDTO pageRequestDTO);
     ProductDTO getProduct(Long pno);
+    void removeProduct(Long pno);
+    void modifyProduct(ProductDTO productDTO);
+    List<Product> test();
     default Product dtoToEntity(ProductDTO productDTO){
-        Member member = Member.builder().userId(productDTO.getId()).build();
-
         Product product = Product.builder()
                 .pno(productDTO.getPno())
                 .name(productDTO.getName())

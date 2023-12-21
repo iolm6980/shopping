@@ -1,5 +1,9 @@
 package com.example.shoping.controller;
 
+import com.example.shoping.dto.ProductDTO;
+import com.example.shoping.entity.Member;
+import com.example.shoping.entity.Product;
+import com.example.shoping.enums.MemberRole;
 import com.example.shoping.security.dto.AuthMemberDTO;
 import com.example.shoping.dto.PageRequestDTO;
 import com.example.shoping.service.ProductService;
@@ -7,9 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequiredArgsConstructor
@@ -19,7 +21,7 @@ public class HomeController {
     @GetMapping("/list")
     public void home(PageRequestDTO pageRequestDTO, Model model, @AuthenticationPrincipal AuthMemberDTO authMember){
         System.out.println("home--------------------");
-        System.out.println(authMember + "정보...............");
+
         model.addAttribute("result", productService.getProductList(pageRequestDTO));
         model.addAttribute("auth", authMember);
     }
@@ -37,6 +39,25 @@ public class HomeController {
         model.addAttribute("error", error);
         model.addAttribute("exception", exception);
         return "/shopping/login";
+    }
+
+    @PostMapping("/remove/{pno}")
+    public String removeProduct(@PathVariable("pno") Long pno){
+        System.out.println("remove.........." + pno);
+        productService.removeProduct(pno);
+        return "redirect:/shopping/list";
+    }
+
+    @GetMapping("/modify")
+    public void modify(ProductDTO productDTO, Model model){
+        System.out.println("modify product..........." + productDTO);
+        model.addAttribute("product", productDTO);
+    }
+
+    @PostMapping("/modify")
+    public String postModify(ProductDTO productDTO){
+        productService.modifyProduct(productDTO);
+        return "redirect:/shopping/list";
     }
 
 

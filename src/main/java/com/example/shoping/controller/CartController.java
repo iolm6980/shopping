@@ -37,6 +37,7 @@ public class CartController {
     public void myOrderList(@AuthenticationPrincipal AuthMemberDTO authMemberDTO, Model model){
         List<CartDTO> result = cartService.getCartList(authMemberDTO.getUsername());
         System.out.println("cartList" + result);
+        System.out.println("권한..............." + authMemberDTO.getAuthorities());
         model.addAttribute("cartList", result);
         model.addAttribute("auth", authMemberDTO);
     }

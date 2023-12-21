@@ -57,7 +57,7 @@
                         </div>
                     </div>
                     <div align="right">
-                        <button type="submit" class="btn btn-primary float-right" onclick="modify()">수정하기</button>
+                        <button type="submit" class="btn btn-primary float-right">수정하기</button>
                     </div>
                 </form>
 
@@ -71,9 +71,7 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script>
-    function modify(){
-        alert("수정 완료");
-    }
+
     function sample6_execDaumPostcode() {
         new daum.Postcode({
             oncomplete: function(data) {

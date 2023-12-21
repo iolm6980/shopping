@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.w3.org/1999/xhtml">
     <head>
         <div th:replace="~{layout/layout::head}"></div>
         <link href="/css/detail-styles.css" rel="stylesheet" />
@@ -32,19 +32,9 @@
                                     <div class="small mb-1">판매자</div>
                                     <p class="lead">[[${product.price}]]</p>
                                     <p class="lead">[[${product.likeCount}]]</p>
-<!--                                    <div class="d-flex">-->
-<!--                                        <form action="/member/addCart" method="post" id="add-cart-form">-->
-<!--                                            <input type="hidden" name="pno" th:value="${product.pno}">-->
-<!--                                            <input type="hidden" name="name" th:value="${product.name}">-->
-<!--                                            <input type="hidden" name="price" th:value="${product.price}">-->
-<!--                                            <input type="hidden" name="likeCount" th:value="${product.likeCount}">-->
-<!--                                            <input type="hidden" name="type" th:value="${product.type}">-->
-<!--                                        </form>-->
-<!--                                    </div>-->
                                     <form id="buy-form">
                                         <div>
                                             <select class="form-select select-size" name="size" aria-label="Default select example">
-                                                <option selected>옵션 선택</option>
                                                 <option th:value="S">S</option>
                                                 <option th:value="M">M</option>
                                                 <option th:value="L">L</option>
@@ -66,12 +56,14 @@
                                                 <i class="bi-cart-fill me-1"></i>
                                                 구매하기
                                             </button>
+                                            <button sec:authorize="hasRole('ADMIN')" class="btn btn-outline-dark flex-shrink-0 modifyBtn" type="button">상품 수정하기</button>
                                         </div>
                                         <input type="hidden" name="pno" th:value="${product.pno}">
                                         <input type="hidden" name="name" th:value="${product.name}">
                                         <input type="hidden" name="price" th:value="${product.price}">
                                         <input type="hidden" name="likeCount" th:value="${product.likeCount}">
                                         <input type="hidden" name="type" th:value="${product.type}">
+
                                     </form>
                                 </div>
                             </div>
@@ -108,6 +100,14 @@
                     actionForm
                         .attr("action", "/cart/addOrder")
                         .attr("method","post")
+                        .submit();
+                });
+
+                var actionForm = $("#buy-form");
+                $(".modifyBtn").click(function(){
+                    actionForm
+                        .attr("action", "/shopping/modify")
+                        .attr("method", "submit")
                         .submit();
                 });
 

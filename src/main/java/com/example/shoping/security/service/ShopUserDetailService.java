@@ -25,10 +25,10 @@ public class ShopUserDetailService implements UserDetailsService {
         Optional<Member> member = memberRepository.findByUserId(username);
         if(member.isEmpty()) return null;
         Member result = member.get();
-        System.out.println("-----------------test_----------------------------------: " + username);
-        System.out.println("---------------test1--------------" + member);
+        System.out.println("---------------test--------------" + member);
         List<GrantedAuthority> roles = new ArrayList<GrantedAuthority>();
-        roles.add(new SimpleGrantedAuthority("ROLE_" + MemberRole.USER));
+        if(member.get().getRole() == MemberRole.ADMIN) roles.add(new SimpleGrantedAuthority("ROLE_" + MemberRole.ADMIN));
+        else roles.add(new SimpleGrantedAuthority("ROLE_" + MemberRole.USER));
         AuthMemberDTO authMemberDTO = new AuthMemberDTO(
                 result.getUserId(),
                 result.getPassword(),
