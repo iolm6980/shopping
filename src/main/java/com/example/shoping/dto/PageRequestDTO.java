@@ -1,6 +1,5 @@
 package com.example.shoping.dto;
 
-import com.example.shoping.entity.ProductType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -15,7 +14,7 @@ public class PageRequestDTO {
 
     private int page;
     private int size;
-    private ProductType productType;
+    private String productType;
     private String type;
     private String keyword;
 

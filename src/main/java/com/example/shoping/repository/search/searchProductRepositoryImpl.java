@@ -2,17 +2,14 @@ package com.example.shoping.repository.search;
 
 import com.example.shoping.dto.PageRequestDTO;
 import com.example.shoping.entity.Product;
-import com.example.shoping.entity.ProductType;
 import com.example.shoping.entity.QProduct;
 import com.example.shoping.entity.QProductImage;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.Tuple;
 import com.querydsl.jpa.JPQLQuery;
-import lombok.extern.java.Log;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
 
 import java.util.stream.Collectors;

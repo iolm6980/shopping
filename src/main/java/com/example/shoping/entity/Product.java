@@ -18,9 +18,5 @@ public class Product extends BaseEntity{
     private String name;
     private int price;
     private int likeCount;
-    private ProductType type;
-    public void changeName(String name){ this.name = name; }
-    public void changePrice(int price){ this.price = price; }
-    public void changeLikeCount(int likeCount){ this.likeCount = likeCount; }
-
+    private String type;
 }

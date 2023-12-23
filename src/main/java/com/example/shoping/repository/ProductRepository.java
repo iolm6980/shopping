@@ -15,7 +15,6 @@ import org.springframework.data.querydsl.QuerydslPredicateExecutor;
 import java.util.*;
 
 public interface ProductRepository extends JpaRepository<Product, Long> , searchProductRepository {
-    List<Product> findByType(ProductType productType);
     Page<Product> findByLikeCountGreaterThan(int likeCount, Pageable pageable);
 
     @Query("select p, pi, avg(p.likeCount) from Product p " +

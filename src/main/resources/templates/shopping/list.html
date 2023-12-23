@@ -23,9 +23,9 @@
                                     <a th:href="@{/shopping/detail(pno=${dto.pno})}">
 
                                         <div class="col mb-5">
-                                            <div class="card h-100">
+                                            <div class="card">
                                                 <!-- Product image-->
-                                                <img class="card-img-top" th:src="${dto.productImageList[0].path}" alt="..." />
+                                                <img class="card-img-top" th:src="|/upload/display?fileName=${dto.productImageList[0].getImageURL()}|" alt="..." />
                                                 <hr>
                                                 <!-- Product details-->
                                                 <div class="card-body p-4">
@@ -76,6 +76,7 @@
                         </li>
 
                     </ul>
+
                 </div>
             </div>
         </div>

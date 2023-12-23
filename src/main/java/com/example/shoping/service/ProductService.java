@@ -14,7 +14,7 @@ public interface ProductService {
     ProductDTO getProduct(Long pno);
     void removeProduct(Long pno);
     void modifyProduct(ProductDTO productDTO);
-    List<Product> test();
+    void registerProduct(ProductDTO productDTO, List<ProductImageDTO> uploadList);
     default Product dtoToEntity(ProductDTO productDTO){
         Product product = Product.builder()
                 .pno(productDTO.getPno())
@@ -24,6 +24,16 @@ public interface ProductService {
                 .type(productDTO.getType())
                 .build();
         return product;
+    }
+
+    default ProductImage dtoToEntity(ProductImageDTO productImageDTO, Product product){
+        ProductImage productImage = ProductImage.builder()
+                .uuid(productImageDTO.getUuid())
+                .imgName(productImageDTO.getImgName())
+                .path(productImageDTO.getPath())
+                .product(product)
+                .build();
+        return productImage;
     }
 
     default ProductDTO entityToDTO(Product product, List<ProductImage> productImageList){

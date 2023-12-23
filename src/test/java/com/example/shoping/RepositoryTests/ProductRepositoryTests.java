@@ -40,7 +40,7 @@ public class ProductRepositoryTests {
                     .name("testProduct"+i)
                     .price((int) (Math.random()*10000))
                     .likeCount((int) (Math.random()*50))
-                    .type(ProductType.randomType())
+                    .type("PANTS")
                     .build();
             productRepository.save(product);
         });
@@ -55,8 +55,7 @@ public class ProductRepositoryTests {
     }
     @Test
     public void getProductByType(){
-        List<Product> productList = productRepository.findByType(ProductType.PANTS);
-        System.out.println(productList);
+
     }
 
 
@@ -72,10 +71,7 @@ public class ProductRepositoryTests {
 
     @Test
     public void modifyProduct(){
-        Optional<Product> result = productRepository.findById(1L);
-        result.get().changeLikeCount(0);
-        result.get().changePrice(0);
-        productRepository.save(result.get());
+
     }
 
     @Test
@@ -125,7 +121,7 @@ public class ProductRepositoryTests {
                 .name("modifyProduct")
                 .price(1)
                 .likeCount(1)
-                .type(ProductType.PANTS)
+                .type("PANTS")
                 .build();
         productRepository.save(product);
     }

@@ -1,8 +1,6 @@
 package com.example.shoping.service;
 
-import com.example.shoping.dto.PageRequestDTO;
-import com.example.shoping.dto.PageResultDTO;
-import com.example.shoping.dto.ProductDTO;
+import com.example.shoping.dto.*;
 import com.example.shoping.entity.*;
 import com.example.shoping.repository.CartRepository;
 import com.example.shoping.repository.ProductImageRepository;
@@ -19,6 +17,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.function.Function;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -60,26 +59,12 @@ public class ProductServiceImpl implements ProductService{
         productRepository.save(product);
     }
 
-    private BooleanBuilder getSearch(PageRequestDTO requestDTO){
-        ProductType type = requestDTO.getProductType();
-        BooleanBuilder booleanBuilder = new BooleanBuilder();
-        if(type != null) booleanBuilder.and(QProduct.product.type.eq(type));
-
-        return booleanBuilder;
-    }
     @Override
-    public List<Product> test(){
-        Product product = Product.builder()
-                .name("testProduct4")
-                .build();
-        ExampleMatcher e = ExampleMatcher.matchingAll()
-                .withIgnorePaths("pno")
-                .withIgnorePaths("likeCount")
-                .withIgnorePaths("price");
-        List<Product> result = productRepository.findAll(Example.of(product, e));
-        return result;
+    public void registerProduct(ProductDTO productDTO, List<ProductImageDTO> uploadList) {
+        Product product = productRepository.save(dtoToEntity(productDTO));
+        List<ProductImage> list = uploadList.stream().map(img -> dtoToEntity(img, product)).collect(Collectors.toList());
+        productImageRepository.saveAll(list);
     }
-
 
 
 }
