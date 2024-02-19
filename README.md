@@ -19,6 +19,7 @@
 * 로그인
   
 # ERD
+![image](https://github.com/iolm6980/shoping/assets/133768355/1235bc82-1319-4df2-b405-b4703ce738aa)
 
 
 # 구현 결과  
