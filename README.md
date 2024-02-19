@@ -11,8 +11,8 @@
 
 # 주요 기능
 * 상품, 댓글, 사용자 CRUD
-* 상품 검색
-* 상품 결제
+* 상품 검색 및 결제
+* 장바구니 기능
 * 로그인
   
 # ERD
@@ -22,7 +22,6 @@
 
 ## 상품 리스트
 https://github.com/iolm6980/shoping/assets/133768355/b3b04fb2-f442-4a8d-be27-89870c0cf8a8  
-
   
 ## 회원가입 및 로그인
 https://github.com/iolm6980/shoping/assets/133768355/b5e66044-b506-455c-8db5-f15d86bdcd86
