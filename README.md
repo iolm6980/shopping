@@ -23,21 +23,37 @@
 
 
 # 구현 결과  
+<details>
+<summary>상품 리스트</summary>
 
-## 상품 리스트
 https://github.com/iolm6980/shoping/assets/133768355/b3b04fb2-f442-4a8d-be27-89870c0cf8a8  
-  
-## 회원가입 및 로그인
+</details>
+
+<details>
+<summary>회원가입 및 로그인</summary>
+
 https://github.com/iolm6980/shoping/assets/133768355/b5e66044-b506-455c-8db5-f15d86bdcd86
+</details>
 
-## 장바구니 및 결제
+<details>
+<summary>장바구니 및 결제</summary>
+
 https://github.com/iolm6980/shoping/assets/133768355/712d3c5b-084b-484e-992e-7de8b34f0cd6
+</details>
 
-## 댓글 CRUD
+<details>
+<summary>댓글 CRUD</summary>
+
 https://github.com/iolm6980/shoping/assets/133768355/ff8b1a1c-d995-4b3a-ba75-95bfcabfb032
+</details>
 
-## 상품 CRUD
+<details>
+<summary>상품 CRUD</summary>
+
 https://github.com/iolm6980/shoping/assets/133768355/429c7334-8266-434c-b7b7-b119922d3231
+</details>
+
+
 
 
 
