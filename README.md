@@ -53,10 +53,12 @@ https://github.com/iolm6980/shoping/assets/133768355/ff8b1a1c-d995-4b3a-ba75-95b
 https://github.com/iolm6980/shoping/assets/133768355/429c7334-8266-434c-b7b7-b119922d3231
 </details>
 
-
-
-
-
+# 프로젝트 성과
+* JPA를 이용한 기본적인 CRUD작성 방법
+* 페이징 처리 방법
+* spring security의 간단한 사용방법
+* QueryDSL의 간단한 사용방법
+* 설계의 중요성을 깨달음
 
 
 
